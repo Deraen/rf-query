@@ -1,0 +1,10 @@
+{:source-paths ["src" "example-src/cljs" "example-src/html"]
+ :dev-http {8090 {:roots ["target/shadow-cljs/client/public" "classpath:public"]}}
+ :builds {:client {:target :browser
+                   :output-dir "target/shadow-cljs/client/public"
+                   :asset-path "/js"
+                   :modules {:main {:entries [example.main]}}}}
+ :dependencies [[com.pitch/uix.core "1.1.0"]
+                [com.pitch/uix.dom "1.1.0"]
+                [re-frame "1.4.3"]
+                [metosin/reagent-dev-tools "1.0.3"]]}
