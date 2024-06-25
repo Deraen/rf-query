@@ -15,7 +15,7 @@
 (defn is-active [query-state]
   (pos? (:uses query-state)))
 
-(defn make-initial-state [query-def]
+(defn make-initial-state [_query-def]
   {:ts (ts)
    :is-initial-fetching true
    :is-fetching true
@@ -77,7 +77,9 @@
 (rf/reg-event-fx ::maybe-cleanup
   (fn [{:keys [db]} [_ {query-key :key} old-ts]]
     (let [query-state (get (::queries db) query-key)]
-      (if (and (zero? (:uses query-state))
+      (if (and (not (is-active query-state))
+               ;; Even if it is not-active, it is possible it was refetched in between, so compare ts to check
+               ;; it wasn't used and unmounted again during the timeout.
                (= old-ts (:ts query-state)))
         {:db (update db ::queries dissoc query-key)}
         nil))))

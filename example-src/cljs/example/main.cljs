@@ -10,8 +10,8 @@
             ;; NOTE: What about something that looks and works more like a re-frame event/fx?
             (js/Promise. (fn [resolve]
                            (js/setTimeout (fn []
-                                            (resolve [{:hello "world"}]))
-                                          700))))})
+                                            (resolve [{:hello (repeat (rand-int 10) "world")}]))
+                                          (+ 200 (rand-int 1000))))))})
 
 (defui main []
   (let [[entity-id set-entity-id] (uix/use-state 5)
